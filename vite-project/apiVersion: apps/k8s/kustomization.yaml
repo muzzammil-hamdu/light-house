@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: light-house
+
+resources:
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml  # optional; leave if you plan to use Ingress in addition to LB
+
+images:
+  - name: mujju752/light-house
+    newTag: latest
