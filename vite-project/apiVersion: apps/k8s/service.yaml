@@ -1,13 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: light-house
+  name: light-house-lb
+  labels:
+    app: light-house
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: light-house
   ports:
-    - port: 80
+    - name: http
+      port: 80
       targetPort: 80
       protocol: TCP
-      name: http
