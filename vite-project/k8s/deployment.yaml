@@ -1,20 +1,30 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: light-house
-  namespace: argocd
 spec:
-  project: default
-  source:
-    repoURL: 'https://github.com/muzzammil-hamdu/light-house.git'
-    targetRevision: main
-    path: k8s
-  destination:
-    server: 'https://kubernetes.default.svc'
-    namespace: light-house
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+  replicas: 2
+  selector:
+    matchLabels:
+      app: light-house
+  template:
+    metadata:
+      labels:
+        app: light-house
+    spec:
+      # If your Docker Hub repo is private, add imagePullSecrets here:
+      # imagePullSecrets:
+      #   - name: dockerhub-regcred
+      containers:
+        - name: light-house
+          image: mujju752/light-house:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
