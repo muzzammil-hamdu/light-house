@@ -12,9 +12,12 @@ spec:
       labels:
         app: light-house
     spec:
+      # If your Docker Hub repo is private, add imagePullSecrets here:
+      # imagePullSecrets:
+      #   - name: dockerhub-regcred
       containers:
         - name: light-house
-          image: ghcr.io/YOUR_ORG/light-house:latest
+          image: mujju752/light-house:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
